@@ -19,19 +19,30 @@ on:
 jobs:
   run-bot:
     runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v4
-
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
+      
       - name: Install dependencies
         run: pip install -r requirements.txt
-
+      
       - name: Run bot
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: python crypto_bot.py
+      
+      # حفظ ملف الأخبار المنشورة
+      - name: Commit posted news
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add posted_news.txt || true
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update posted news [skip ci]"
+          git push || true
