@@ -21,7 +21,11 @@ RSS_SOURCES = [
 ]
 
 POSTED_FILE = "posted.txt"
-SCHEDULED_TIMES = ["01:47"]  # 4 مرات يوميًا
+SCHEDULED_TIMES = [
+    "00:00", "07:00", "9:00", "10:00",
+    "11:00", "12:00", "13:00", "14:00",
+    "16:00", "18:00", "20:00", "22:00"
+]  # 4 مرات يوميًا
 
 bot = telebot.TeleBot(TOKEN)
 
@@ -292,4 +296,5 @@ def main():
         print("="*50 + "\n")
 
 if __name__ == "__main__":
+
     main()
